@@ -1,0 +1,1 @@
+# Prakriti_Plant_disease_detection
