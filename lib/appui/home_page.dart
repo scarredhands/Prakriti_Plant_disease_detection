@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prakriti_plant_disease_detection/main.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:prakriti_plant_disease_detection/utils/assets.dart';
 import 'package:prakriti_plant_disease_detection/utils/styles.dart';
 
-class homePage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +87,7 @@ class homePage extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 35,
+                        fontWeight: FontWeight.w600,
                         fontFamily: 'Inter',
                         height: 0,
                       ),
