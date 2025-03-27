@@ -2,11 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
-import 'package:tflite_flutter/tflite_flutter.dart';
 
 import '../models/tflite_model.dart';
-
-late Interpreter interpreter; // Define interpreter globally
 
 // Preprocess image for TFLite model
 Future<List<List<List<List<double>>>>> preprocessImage(String imagePath) async {
@@ -48,16 +45,40 @@ Future<List<List<List<List<double>>>>> preprocessImage(String imagePath) async {
   return [imageMatrix];
 }
 
-Future<String> predictDisease(String imagePath) async {
+// Future<String> predictDisease(String imagePath) async {
+//   if (interpreter == null) {
+//     throw Exception('Model not loaded. Please load the model first.');
+//   }
+//
+//   // Preprocess image
+//   List<List<List<List<double>>>> input = await preprocessImage(imagePath);
+//
+//   // Define output tensor (change based on the number of classes)
+//   var output = List.filled(1 * 5, 0).reshape([1, 5]);
+//
+//   // Run inference
+//   interpreter.run(input, output);
+//
+//   // Load labels
+//   List<String> labels = await loadLabels();
+//
+//   // Get predicted class index
+//   int predictedIndex = output[0]
+//       .indexWhere((val) => val == output[0].reduce((a, b) => a > b ? a : b));
+//
+//   // Return predicted label
+//   return labels[predictedIndex];
+// }
+
+Future<Map<String, dynamic>> predictDisease(String imagePath) async {
   if (interpreter == null) {
     throw Exception('Model not loaded. Please load the model first.');
   }
-
   // Preprocess image
   List<List<List<List<double>>>> input = await preprocessImage(imagePath);
 
   // Define output tensor (change based on the number of classes)
-  var output = List.filled(1 * 5, 0).reshape([1, 5]);
+  List<List<double>> output = List.generate(1, (i) => List.filled(15, 0.0));
 
   // Run inference
   interpreter.run(input, output);
@@ -66,9 +87,15 @@ Future<String> predictDisease(String imagePath) async {
   List<String> labels = await loadLabels();
 
   // Get predicted class index
-  int predictedIndex = output[0]
-      .indexWhere((val) => val == output[0].reduce((a, b) => a > b ? a : b));
+  int predictedIndex = output[0].indexWhere(
+    (val) => val == output[0].reduce((a, b) => a > b ? a : b),
+  );
 
-  // Return predicted label
-  return labels[predictedIndex];
+  double confidence = output[0][predictedIndex];
+  String predictedLabel = labels[predictedIndex];
+
+  return {
+    "label": predictedLabel,
+    "confidence": confidence.toStringAsFixed(2),
+  };
 }
