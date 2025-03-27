@@ -15,6 +15,7 @@ class _TestScreenState extends State<TestScreen> {
   late Interpreter interpreter;
   bool isModelLoaded = false;
   String? predictedLabel;
+  String? confidence;
   final picker = ImagePicker();
 
   @override
@@ -36,13 +37,13 @@ class _TestScreenState extends State<TestScreen> {
     }
   }
 
-  // Pick image from gallery or camera
   Future<void> pickImage(ImageSource source) async {
     final XFile? image = await picker.pickImage(source: source);
     if (image != null) {
-      String label = await predictDisease(image.path);
+      Map<String, dynamic> result = await predictDisease(image.path);
       setState(() {
-        predictedLabel = label;
+        predictedLabel = result['label'];
+        confidence = result['confidence'];
       });
     }
   }
@@ -112,7 +113,7 @@ class _TestScreenState extends State<TestScreen> {
   // }
 
   // Predict disease from image
-  Future<String> predictDisease(String imagePath) async {
+  Future<Map<String, dynamic>> predictDisease(String imagePath) async {
     if (!isModelLoaded) {
       await loadModel();
     }
@@ -137,8 +138,11 @@ class _TestScreenState extends State<TestScreen> {
     // Get confidence of the predicted class
     double confidence = output[0][predictedIndex] * 100;
 
-    // Return class name with confidence
-    return "${labels[predictedIndex]} (Accuracy: ${confidence.toStringAsFixed(2)}%)";
+    // Return label and confidence as a map
+    return {
+      'label': labels[predictedIndex],
+      'confidence': confidence.toStringAsFixed(2),
+    };
   }
 
   @override
@@ -153,10 +157,20 @@ class _TestScreenState extends State<TestScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             predictedLabel != null
-                ? Text(
-                    'Prediction: $predictedLabel',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                ? Column(
+                    children: [
+                      Text(
+                        'Prediction: $predictedLabel',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Confidence: $confidence%',
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
+                    ],
                   )
                 : const Text(
                     'Select an image to predict!',
