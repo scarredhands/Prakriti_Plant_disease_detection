@@ -6,9 +6,10 @@ plugins {
 }
 
 android {
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
     namespace = "com.example.prakriti_plant_disease_detection"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -42,3 +43,5 @@ android {
 flutter {
     source = "../.."
 }
+
+
