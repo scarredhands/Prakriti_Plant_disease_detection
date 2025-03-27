@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prakriti_plant_disease_detection/appui/home_page.dart';
+import 'package:prakriti_plant_disease_detection/appui/testui.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure services are initialized
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomePage(),
+      home: TestScreen(),
     );
   }
 }

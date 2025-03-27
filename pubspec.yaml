@@ -39,6 +39,8 @@ dependencies:
   image_picker: ^1.1.2
   shared_preferences: ^2.5.2
   path_provider: ^2.1.5
+  tflite_flutter: ^0.11.0
+  image: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/model.tflite
+    - assets/labels.txt
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
