@@ -31,6 +31,7 @@ class DiseasePage extends StatelessWidget {
           style: TextStyle(
             color: Colors.black,
             fontSize: 25,
+            fontWeight:FontWeight.w500,
             fontFamily: 'Inter',
           ),
         ),
@@ -65,6 +66,8 @@ class DiseasePage extends StatelessWidget {
             Text(
               "with $accuracy Accuracy",
               style: fontstyles.dr1,
+
+
             ),
             const SizedBox(height: 10),
             Text(
@@ -72,7 +75,9 @@ class DiseasePage extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 14,
                 fontFamily: 'Inter',
-                color: Colors.black87,
+                color: Colors.black54,
+                fontWeight:FontWeight.w500,
+
               ),
             ),
             const SizedBox(height: 20),
