@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prakriti_plant_disease_detection/appui/edit_profile.dart';
 import 'package:prakriti_plant_disease_detection/utils/assets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -69,8 +70,9 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
+
                 const Text(
-                  "Arjun Verma",
+                  "arhun",
                   style: TextStyle(fontSize: 20,fontFamily: 'Inter', fontWeight: FontWeight.bold),
                 ),
                 const Text(
@@ -78,10 +80,13 @@ class ProfileScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 14,fontFamily: 'Inter', color: Colors.black54),
                 ),
                 const SizedBox(height: 5),
-                const Text(
+
+                ElevatedButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));}
+                  , child:  const Text(
                   "Edit Profile",
                   style: TextStyle(fontSize: 14, fontFamily: 'Inter',color: Colors.blue, fontWeight: FontWeight.bold),
-                ),
+                ),)
+
               ],
             ),
           ),
