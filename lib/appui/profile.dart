@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:prakriti_plant_disease_detection/appui/edit_profile.dart';
 import 'package:prakriti_plant_disease_detection/utils/assets.dart';
+class ProfileScreen extends StatefulWidget {
+@override
+_ProfileScreenState createState() => _ProfileScreenState();
+}
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class _ProfileScreenState extends State<ProfileScreen> {
+  String _name = "John Doe";
+  String _phone = "+91 9876543210";
 
+  void _updateProfile(String name, String phone) {
+    setState(() {
+      _name = name;
+      _phone = phone;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage("assets/profile.jpg"), // Profile Image
+                      backgroundImage: AssetImage(Assets.cloud), // Profile Image
                     ),
                     Positioned(
                       bottom: 0,
@@ -72,12 +83,13 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 const Text(
-                  "arhun",
+                 "Name",
                   style: TextStyle(fontSize: 20,fontFamily: 'Inter', fontWeight: FontWeight.bold),
                 ),
                 const Text(
-                  "arjunverma23@gmail.com",
+                  "hi",
                   style: TextStyle(fontSize: 14,fontFamily: 'Inter', color: Colors.black54),
+
                 ),
                 const SizedBox(height: 5),
 
