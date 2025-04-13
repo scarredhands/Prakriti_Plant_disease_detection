@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792674570197",
+    "project_id": "prakriti-ml-app",
+    "storage_bucket": "prakriti-ml-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792674570197:android:a238ab962d1cf718d6f75c",
+        "android_client_info": {
+          "package_name": "com.example.prakriti_plant_disease_detection"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALA2Pt07nyhv6a6Mi1YIub8iQvIidXKGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
