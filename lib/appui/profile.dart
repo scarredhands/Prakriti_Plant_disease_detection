@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prakriti_plant_disease_detection/appui/edit_profile.dart';
 import 'package:prakriti_plant_disease_detection/utils/assets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -27,7 +28,8 @@ class ProfileScreen extends StatelessWidget {
                 left: 20,
                 child: GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.arrow_back, color: Colors.blue, size: 30),
+                  child: const Icon(Icons.arrow_back,
+                      color: Colors.blue, size: 30),
                 ),
               ),
               Positioned(
@@ -37,7 +39,11 @@ class ProfileScreen extends StatelessWidget {
                 child: const Text(
                   "My Profile",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 22, fontFamily:'INTER',fontWeight: FontWeight.bold, color: Colors.blue),
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'INTER',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue),
                 ),
               ),
             ],
@@ -52,7 +58,8 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage("assets/profile.jpg"), // Profile Image
+                      backgroundImage:
+                          AssetImage("assets/profile.png"), // Profile Image
                     ),
                     Positioned(
                       bottom: 0,
@@ -63,7 +70,8 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.white,
                         ),
                         padding: const EdgeInsets.all(5),
-                        child: const Icon(Icons.camera_alt, color: Colors.blue, size: 20),
+                        child: const Icon(Icons.camera_alt,
+                            color: Colors.blue, size: 20),
                       ),
                     ),
                   ],
@@ -71,16 +79,32 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 const Text(
                   "Arjun Verma",
-                  style: TextStyle(fontSize: 20,fontFamily: 'Inter', fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.bold),
                 ),
                 const Text(
                   "arjunverma23@gmail.com",
-                  style: TextStyle(fontSize: 14,fontFamily: 'Inter', color: Colors.black54),
+                  style: TextStyle(
+                      fontSize: 14, fontFamily: 'Inter', color: Colors.black54),
                 ),
                 const SizedBox(height: 5),
-                const Text(
-                  "Edit Profile",
-                  style: TextStyle(fontSize: 14, fontFamily: 'Inter',color: Colors.blue, fontWeight: FontWeight.bold),
+                GestureDetector(
+                  child: const Text(
+                    "Edit Profile",
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'Inter',
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfileScreen()));
+                  },
                 ),
               ],
             ),
@@ -116,9 +140,11 @@ class ProfileOption extends StatelessWidget {
       leading: Icon(icon, color: Colors.blue, size: 30),
       title: Text(
         text,
-        style: const TextStyle(fontSize: 16, fontFamily: 'Inter',fontWeight: FontWeight.w500),
+        style: const TextStyle(
+            fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w500),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black54),
+      trailing:
+          const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black54),
       onTap: () {},
     );
   }
