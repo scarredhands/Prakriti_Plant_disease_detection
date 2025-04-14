@@ -3,36 +3,64 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:prakriti_plant_disease_detection/appui/sign_up_page.dart';
 
 import '../utils/assets.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
-  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
     try {
-      // Trigger Google Sign-In flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      if (googleUser == null) return null; // user cancelled
+      if (googleUser == null) return null; // User canceled the sign-in
 
-      // Get auth details
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      // Create a credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Sign in to Firebase
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // If signed in successfully, navigate to the Home Page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()), // Navigate to HomePage
+      );
+
+      return userCredential;
     } catch (e) {
-      debugPrint('Google sign-in error: $e');
+      print('Google Sign-In Error: $e');
       return null;
+    }
+  }
+  Future<void> login(BuildContext context) async {
+    try {
+      // Sign in using Firebase Authentication with email and password
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      // Print the logged-in user's email
+      print("User logged in: ${userCredential.user?.email}");
+
+      // Navigate to the HomePage on successful login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } catch (e) {
+      // If an error occurs, print it and show an error message
+      print("Login error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during login: $e')),
+      );
     }
   }
   @override
@@ -55,9 +83,9 @@ class LoginPage extends StatelessWidget {
                       color: Colors.blue)),
               SizedBox(height: 40),
               TextField(
-                controller: phoneController,
-                keyboardType: TextInputType.phone,
-                decoration: _inputDecoration("Phone number"),
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: _inputDecoration("Email Address"),
               ),
               SizedBox(height: 20),
               TextField(
@@ -78,7 +106,7 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => login(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -110,7 +138,7 @@ class LoginPage extends StatelessWidget {
               Center(
                 child: OutlinedButton.icon(
                   onPressed: () async {
-                    final userCredential = await signInWithGoogle();
+                    final userCredential = await signInWithGoogle(context);
 
                     if (userCredential != null) {
                       print("User signed in: ${userCredential.user!.displayName}");
