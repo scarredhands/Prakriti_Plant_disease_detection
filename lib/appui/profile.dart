@@ -1,102 +1,149 @@
-import 'package:flutter/material.dart';
-import 'package:prakriti_plant_disease_detection/utils/assets.dart';
+import 'dart:io';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:prakriti_plant_disease_detection/appui/edit_profile.dart';
+import 'package:prakriti_plant_disease_detection/utils/assets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String name = "John Doe";
+  String phone = "+91 9876543210";
+  String? imagePath;
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  Future<void> _loadProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('name') ?? "John Doe";
+      phone = prefs.getString('phone') ?? "701xxxxxx";
+      imagePath = prefs.getString('profileImage');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF2F9FA),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "My Profile",
+          style: TextStyle(
+              fontSize: 22,
+              fontFamily: 'INTER',
+              fontWeight: FontWeight.bold,
+              color: Colors.blue),
+        ),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back, color: Colors.blue, size: 30),
+        ),
+      ),
       body: Column(
         children: [
           // Top Section with Back Button & Clouds
-          Stack(
-            children: [
-              Container(
-                height: 200,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(Assets.cloud), // Cloud background
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 50,
-                left: 20,
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.arrow_back, color: Colors.blue, size: 30),
-                ),
-              ),
-              Positioned(
-                top: 80,
-                left: 0,
-                right: 0,
-                child: const Text(
-                  "My Profile",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 22, fontFamily:'INTER',fontWeight: FontWeight.bold, color: Colors.blue),
-                ),
-              ),
-            ],
-          ),
+          const SizedBox(height: 40),
 
           // Profile Picture & Name Section
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 5),
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage("assets/profile.jpg"), // Profile Image
+                Stack(children: [
+                  GestureDetector(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfileScreen()),
+                      );
+                      _loadProfileData(); // Refresh after editing
+                    },
+                    child: CircleAvatar(
+                      radius: 65,
+                      backgroundImage: imagePath != null
+                          ? FileImage(File(imagePath!))
+                          : const AssetImage(Assets.cloud)
+                      as ImageProvider, // Profile Image
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.all(5),
-                        child: const Icon(Icons.camera_alt, color: Colors.blue, size: 20),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
                       ),
+                      padding: const EdgeInsets.all(5),
+                      child: const Icon(Icons.camera_alt,
+                          color: Colors.blue, size: 20),
                     ),
-                  ],
-                ),
+                  ),
+                ]),
                 const SizedBox(height: 10),
-                const Text(
-                  "Arjun Verma",
-                  style: TextStyle(fontSize: 20,fontFamily: 'Inter', fontWeight: FontWeight.bold),
+                Text(
+                  name,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w500),
                 ),
-                const Text(
-                  "arjunverma23@gmail.com",
-                  style: TextStyle(fontSize: 14,fontFamily: 'Inter', color: Colors.black54),
+                Text(
+                  phone,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Inter',
+                      color: Colors.black54),
                 ),
-                const SizedBox(height: 5),
-                const Text(
-                  "Edit Profile",
-                  style: TextStyle(fontSize: 14, fontFamily: 'Inter',color: Colors.blue, fontWeight: FontWeight.bold),
+                TextButton(
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfileScreen()));
+                    _loadProfileData();
+                  },
+                  child: const Text(
+                    "Edit Profile",
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'Inter',
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
 
           // Profile Menu Options
           Expanded(
-            child: ListView(
-              children: const [
-                ProfileOption(icon: Icons.download, text: "Downloads"),
-                ProfileOption(icon: Icons.language, text: "Language"),
-                ProfileOption(icon: Icons.location_on, text: "Location"),
-              ],
+            child: Container(
+              padding: EdgeInsets.all(11),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: ListView(
+                children: const [
+                  ProfileOption(icon: Icons.download, text: "Downloads"),
+                  ProfileOption(icon: Icons.language, text: "Language"),
+                  ProfileOption(icon: Icons.location_on, text: "Location"),
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -116,9 +163,11 @@ class ProfileOption extends StatelessWidget {
       leading: Icon(icon, color: Colors.blue, size: 30),
       title: Text(
         text,
-        style: const TextStyle(fontSize: 16, fontFamily: 'Inter',fontWeight: FontWeight.w500),
+        style: const TextStyle(
+            fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w500),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black54),
+      trailing:
+      const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black54),
       onTap: () {},
     );
   }
