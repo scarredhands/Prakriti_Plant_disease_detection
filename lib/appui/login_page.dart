@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:prakriti_plant_disease_detection/appui/sign_up_page.dart';
 
 import '../utils/assets.dart';
@@ -10,7 +12,29 @@ import '../utils/assets.dart';
 class LoginPage extends StatelessWidget {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Trigger Google Sign-In flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+      if (googleUser == null) return null; // user cancelled
+
+      // Get auth details
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Create a credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint('Google sign-in error: $e');
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -85,7 +109,16 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 10),
               Center(
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final userCredential = await signInWithGoogle();
+
+                    if (userCredential != null) {
+                      print("User signed in: ${userCredential.user!.displayName}");
+                      // Navigate to your next screen here
+                    } else {
+                      print("Google sign-in failed");
+                    }
+                  },
                   icon: SvgPicture.asset(Assets.google, height: 30),
                   label: Text(
                     "Sign-in with Google",
