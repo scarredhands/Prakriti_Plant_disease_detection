@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
 class _HomePageState extends State<HomePage> {
   Future<void> _showImageSourceDialog(BuildContext context) async {
     final picker = ImagePicker();
@@ -236,7 +237,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               flex: 3,
               child: Container(
-                padding:EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Color(0xFFF2F9FA),
                   borderRadius: BorderRadius.vertical(
@@ -248,7 +249,10 @@ class _HomePageState extends State<HomePage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Guwahati, Assam', style: fontstyles.dr1),
+                        Text('Guwahati, Assam',
+                            style: fontstyles.dr1.copyWith(
+                              fontWeight: FontWeight.w500,
+                            )),
                         SizedBox(height: 5),
                         Text(
                           '45°C',
@@ -260,14 +264,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Text(
                           'The temperature is low \n Weather is cloudy!',
-                          style: fontstyles.dr1,
+                          style: fontstyles.dr1.copyWith(
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         Spacer(),
                       ],
                     ),
                     Align(
                       alignment: Alignment.topRight,
-                      child: Image.asset(Assets.wheat, height:screenHeight*0.5,width:screenWidth*0.3),
+                      child: Image.asset(Assets.wheat,
+                          height: screenHeight * 0.5, width: screenWidth * 0.3),
                     ),
                   ],
                 ),
@@ -296,6 +303,7 @@ class _HomePageState extends State<HomePage> {
                         color: Color(0xFF6E6E6E),
                         fontSize: 14,
                         fontFamily: 'Inter',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -308,8 +316,14 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: [
-          BottomNavigationBarItem(icon:  GestureDetector(
-              onTap: () {Navigator.push(context,MaterialPageRoute(builder: (context) =>HomePage()));},child:Icon(Icons.home)), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  },
+                  child: Icon(Icons.home)),
+              label: 'Home'),
           BottomNavigationBarItem(
             icon: GestureDetector(
               onTap: () => _showImageSourceDialog(context),
@@ -319,7 +333,13 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
               icon: GestureDetector(
-                  child: Icon(Icons.person), onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen()));}),
+                  child: Icon(Icons.person),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileScreen()));
+                  }),
               label: 'Profile'),
         ],
         selectedItemColor: Colors.blue,

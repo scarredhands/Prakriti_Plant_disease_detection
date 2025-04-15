@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: Colors.white,
                       ),
                       padding: const EdgeInsets.all(5),
-                      child: const Icon(Icons.camera_alt,
+                      child: Icon(Icons.camera_alt,
                           color: Colors.blue, size: 20),
                     ),
                   ),

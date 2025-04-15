@@ -50,6 +50,7 @@ class LoginPage extends StatelessWidget {
       // Print the logged-in user's email
       print("User logged in: ${userCredential.user?.email}");
 
+
       // Navigate to the HomePage on successful login
       Navigator.pushReplacement(
         context,

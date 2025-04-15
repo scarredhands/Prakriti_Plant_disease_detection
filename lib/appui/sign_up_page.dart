@@ -14,7 +14,8 @@ class SignUpPage extends StatelessWidget {
 
   Future<void> signUp(BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -27,6 +28,7 @@ class SignUpPage extends StatelessWidget {
       print("Error: ${e.message}");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,55 +39,59 @@ class SignUpPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             Center( child:Text("Sign Up",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blue)),),
+              Center(
+                child: Text("Sign Up",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue)),
+              ),
               SizedBox(height: 40),
               TextField(
                 controller: nameController,
                 decoration: _inputDecoration("Name").copyWith(
-                  constraints: BoxConstraints(maxHeight:50.0),
-                  labelText: "Name",
-                  floatingLabelAlignment: FloatingLabelAlignment.start
-                ),
+                    constraints: BoxConstraints(maxHeight: 50.0),
+                    labelText: "Name",
+                    floatingLabelAlignment: FloatingLabelAlignment.start),
               ),
               SizedBox(height: 20),
               TextField(
-                controller: phoneController,
-                keyboardType: TextInputType.phone,
-                decoration: _inputDecoration("Phone number",).copyWith(
-                  labelText: "Phone",
-                  constraints: BoxConstraints(maxHeight:50.0),)
-              ),
+                  controller: phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: _inputDecoration(
+                    "Phone number",
+                  ).copyWith(
+                    labelText: "Phone",
+                    constraints: BoxConstraints(maxHeight: 50.0),
+                  )),
               SizedBox(height: 20),
               TextField(
-                controller: cityController,
-                decoration: _inputDecoration("City").copyWith(
-                  labelText: "City",
-
-                  constraints: BoxConstraints(maxHeight:50.0),)
-              ),
+                  controller: cityController,
+                  decoration: _inputDecoration("City").copyWith(
+                    labelText: "City",
+                    constraints: BoxConstraints(maxHeight: 50.0),
+                  )),
               SizedBox(height: 20),
-
               TextField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: _inputDecoration("Email").copyWith(
                     labelText: "Email",
-                    constraints: BoxConstraints(maxHeight:50.0)),
+                    constraints: BoxConstraints(maxHeight: 50.0)),
               ),
               SizedBox(height: 20),
-
               TextField(
                 controller: passwordController,
                 decoration: _inputDecoration("Password").copyWith(
                     labelText: "Password",
-
-                    constraints: BoxConstraints(maxHeight:50.0)),
+                    constraints: BoxConstraints(maxHeight: 50.0)),
               ),
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: (){signUp(context);},
+                  onPressed: () {
+                    signUp(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
